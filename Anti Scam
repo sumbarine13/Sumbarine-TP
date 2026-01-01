@@ -1,0 +1,92 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local localPlayer = Players.LocalPlayer
+
+-- Create the box
+local box = Instance.new("Part")
+box.Name = "LeaveZone"
+box.Anchored = true
+box.CanCollide = false
+box.Transparency = 0.6
+box.Color = Color3.fromRGB(0, 255, 255)
+
+-- Set exact position and size
+box.CFrame = CFrame.new(-316.27, -4.18, 113.04)
+box.Size = Vector3.new(46, 96, 46)
+box.Parent = workspace
+
+local triggered = false
+
+-- Check if a point is inside the box
+local function isInsideBox(point)
+	local localPoint = box.CFrame:PointToObjectSpace(point)
+	local half = box.Size / 2
+	return math.abs(localPoint.X) <= half.X
+		and math.abs(localPoint.Y) <= half.Y
+		and math.abs(localPoint.Z) <= half.Z
+end
+
+-- Detection loop for other players
+RunService.Heartbeat:Connect(function()
+	if triggered then return end
+
+	for _, plr in ipairs(Players:GetPlayers()) do
+		if plr ~= localPlayer and plr.Character then
+			local otherHRP = plr.Character:FindFirstChild("HumanoidRootPart")
+			if otherHRP and isInsideBox(otherHRP.Position) then
+				triggered = true
+				localPlayer:Kick("Another player entered your zone.")
+				return
+			end
+		end
+	end
+end)
+
+-- ================= UI =================
+
+local gui = Instance.new("ScreenGui")
+gui.ResetOnSpawn = false
+gui.Parent = localPlayer:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 220, 0, 100)
+frame.Position = UDim2.new(0, 20, 0, 20)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+frame.Parent = gui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 12)
+corner.Parent = frame
+
+local label = Instance.new("TextLabel")
+label.Size = UDim2.new(1, -20, 0, 30)
+label.Position = UDim2.new(0, 10, 0, 5)
+label.Text = "Box Size (studs)"
+label.TextColor3 = Color3.new(1,1,1)
+label.BackgroundTransparency = 1
+label.Font = Enum.Font.GothamBold
+label.TextSize = 14
+label.Parent = frame
+
+local textbox = Instance.new("TextBox")
+textbox.Size = UDim2.new(1, -20, 0, 35)
+textbox.Position = UDim2.new(0, 10, 0, 45)
+textbox.PlaceholderText = "Enter number"
+textbox.ClearTextOnFocus = false
+textbox.Font = Enum.Font.Gotham
+textbox.TextSize = 14
+textbox.TextColor3 = Color3.new(1,1,1)
+textbox.BackgroundColor3 = Color3.fromRGB(45,45,45)
+textbox.Parent = frame
+
+local boxCorner = Instance.new("UICorner")
+boxCorner.CornerRadius = UDim.new(0, 8)
+boxCorner.Parent = textbox
+
+textbox.FocusLost:Connect(function()
+	local size = tonumber(textbox.Text)
+	if size and size > 0 then
+		box.Size = Vector3.new(size, size, size)
+	end
+end)
