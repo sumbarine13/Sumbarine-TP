@@ -2,27 +2,37 @@ local lp = game:GetService("Players").LocalPlayer
 local rs = game:GetService("RunService")
 
 local gui = Instance.new("ScreenGui")
-gui.Name = "AstrexHub"
+gui.Name = "AstrexHub_FullRGB"
 gui.ResetOnSpawn = false
 gui.Parent = lp:WaitForChild("PlayerGui")
 
 local main = Instance.new("Frame")
 main.Size = UDim2.new(0, 340, 0, 260)
 main.Position = UDim2.new(0.5, -170, 0.4, -130)
-main.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+main.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 main.BorderSizePixel = 0
 main.Active = true
 main.Draggable = true
 main.Parent = gui
 
-local corner = Instance.new("UICorner")
-corner.CornerRadius = UDim.new(0, 9)
-corner.Parent = main
+Instance.new("UICorner", main).CornerRadius = UDim.new(0, 9)
 
+-- Rainbow Border Setup
 local stroke = Instance.new("UIStroke")
 stroke.Thickness = 3
 stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 stroke.Parent = main
+
+local strokeGradient = Instance.new("UIGradient")
+strokeGradient.Color = ColorSequence.new({
+	ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)),
+	ColorSequenceKeypoint.new(0.2, Color3.new(1, 1, 0)),
+	ColorSequenceKeypoint.new(0.4, Color3.new(0, 1, 0)),
+	ColorSequenceKeypoint.new(0.6, Color3.new(0, 1, 1)),
+	ColorSequenceKeypoint.new(0.8, Color3.new(0, 0, 1)),
+	ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0))
+})
+strokeGradient.Parent = stroke
 
 -- Discord Button (Top Left)
 local discordBtn = Instance.new("TextButton")
@@ -30,34 +40,28 @@ discordBtn.Size = UDim2.new(0, 145, 0, 28)
 discordBtn.Position = UDim2.new(0, 10, 0, 10)
 discordBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 discordBtn.Text = "Join Discord"
-discordBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+discordBtn.TextColor3 = Color3.new(1, 1, 1)
 discordBtn.TextSize = 11
 discordBtn.Font = Enum.Font.GothamMedium
 discordBtn.TextXAlignment = Enum.TextXAlignment.Right
 discordBtn.Parent = main
 
-local dPadding = Instance.new("UIPadding")
+Instance.new("UICorner", discordBtn).CornerRadius = UDim.new(0, 6)
+local dPadding = Instance.new("UIPadding", discordBtn)
 dPadding.PaddingRight = UDim.new(0, 10)
-dPadding.Parent = discordBtn
-
-local dCorner = Instance.new("UICorner")
-dCorner.CornerRadius = UDim.new(0, 6)
-dCorner.Parent = discordBtn
 
 local dIcon = Instance.new("ImageLabel")
 dIcon.Size = UDim2.new(0, 18, 0, 18)
 dIcon.Position = UDim2.new(0, 6, 0.5, -9)
 dIcon.BackgroundTransparency = 1
-dIcon.Image = "rbxassetid://11419713430" -- High Quality Transparent Discord Logo
+dIcon.Image = "rbxassetid://11419713430"
 dIcon.Parent = discordBtn
 
 discordBtn.MouseButton1Click:Connect(function()
-	if setclipboard then
-		setclipboard("https://discord.gg/CTjeFG5bGt")
-		discordBtn.Text = "Link Copied!"
-		task.wait(2)
-		discordBtn.Text = "Join Discord"
-	end
+	setclipboard("https://discord.gg/CTjeFG5bGt")
+	discordBtn.Text = "Link Copied!"
+	task.wait(2)
+	discordBtn.Text = "Join Discord"
 end)
 
 -- Close Button (Top Right)
@@ -70,15 +74,13 @@ closeBtn.TextColor3 = Color3.fromRGB(255, 100, 100)
 closeBtn.TextSize = 14
 closeBtn.Font = Enum.Font.GothamBold
 closeBtn.Parent = main
-
-local cCorner = Instance.new("UICorner")
-cCorner.CornerRadius = UDim.new(0, 6)
-cCorner.Parent = closeBtn
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 6)
 
 closeBtn.MouseButton1Click:Connect(function()
 	gui:Destroy()
 end)
 
+-- Rainbow Title
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 0, 45)
 title.Position = UDim2.new(0, 0, 0, 25)
@@ -87,6 +89,9 @@ title.Text = "Astrex Hub"
 title.TextSize = 28
 title.Font = Enum.Font.GothamBold
 title.Parent = main
+
+local titleGradient = strokeGradient:Clone()
+titleGradient.Parent = title
 
 local warning = Instance.new("TextLabel")
 warning.Size = UDim2.new(1, 0, 0, 20)
@@ -104,11 +109,9 @@ container.Position = UDim2.new(0, 20, 0, 105)
 container.BackgroundTransparency = 1
 container.Parent = main
 
-local layout = Instance.new("UIListLayout")
+local layout = Instance.new("UIListLayout", container)
 layout.Padding = UDim.new(0, 8)
 layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-layout.SortOrder = Enum.SortOrder.LayoutOrder
-layout.Parent = container
 
 local function makeBtn(name)
 	local b = Instance.new("TextButton")
@@ -118,12 +121,8 @@ local function makeBtn(name)
 	b.TextColor3 = Color3.fromRGB(255, 255, 255)
 	b.Font = Enum.Font.GothamSemibold
 	b.TextSize = 14
-	b.AutoButtonColor = false
 	b.Parent = container
-	
-	local bc = Instance.new("UICorner")
-	bc.CornerRadius = UDim.new(0, 5)
-	bc.Parent = b
+	Instance.new("UICorner", b).CornerRadius = UDim.new(0, 5)
 end
 
 makeBtn("Save Pos")
@@ -140,11 +139,9 @@ footer.TextSize = 11
 footer.Font = Enum.Font.GothamItalic
 footer.Parent = main
 
--- Smooth Rainbow Loop
+-- THE RAINBOW ENGINE
 rs.RenderStepped:Connect(function()
-	local hue = tick() % 4 / 4
-	local color = Color3.fromHSV(hue, 0.7, 1)
-	
-	stroke.Color = color
-	title.TextColor3 = color
+	local rot = (tick() * 60) % 360
+	strokeGradient.Rotation = rot
+	titleGradient.Rotation = rot
 end)
