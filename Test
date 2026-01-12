@@ -1,166 +1,159 @@
+--// Services
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
-local LP = Players.LocalPlayer
 
--- Create GUI
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "AstrexHub"
-ScreenGui.Parent = LP:WaitForChild("PlayerGui")
-ScreenGui.ResetOnSpawn = false
+--// Player
+local lp = Players.LocalPlayer
 
--- Main Frame
-local MainFrame = Instance.new("Frame")
-MainFrame.Name = "MainFrame"
-MainFrame.Size = UDim2.new(0, 350, 0, 270)
-MainFrame.Position = UDim2.new(0.5, -175, 0.4, -135)
-MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-MainFrame.BorderSizePixel = 0
-MainFrame.Active = true
-MainFrame.Draggable = true
-MainFrame.Parent = ScreenGui
+--// GUI
+local gui = Instance.new("ScreenGui")
+gui.Name = "AstrexHub"
+gui.ResetOnSpawn = false
+gui.Parent = lp:WaitForChild("PlayerGui")
 
-local Corner = Instance.new("UICorner")
-Corner.CornerRadius = UDim.new(0, 10)
-Corner.Parent = MainFrame
+local main = Instance.new("Frame")
+main.Size = UDim2.new(0, 340, 0, 260)
+main.Position = UDim2.new(0.5, -170, 0.4, -130)
+main.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+main.BorderSizePixel = 0
+main.Active = true
+main.Draggable = true
+main.Parent = gui
 
--- Rainbow Stroke (Outline)
-local Stroke = Instance.new("UIStroke")
-Stroke.Thickness = 3
-Stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-Stroke.Parent = MainFrame
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 9)
+corner.Parent = main
 
-local RainbowGradient = Instance.new("UIGradient")
-RainbowGradient.Color = ColorSequence.new({
-	ColorSequenceKeypoint.new(0, Color3.new(1, 0, 0)),
-	ColorSequenceKeypoint.new(0.2, Color3.new(1, 1, 0)),
-	ColorSequenceKeypoint.new(0.4, Color3.new(0, 1, 0)),
-	ColorSequenceKeypoint.new(0.6, Color3.new(0, 1, 1)),
-	ColorSequenceKeypoint.new(0.8, Color3.new(0, 0, 1)),
-	ColorSequenceKeypoint.new(1, Color3.new(1, 0, 0))
-})
-RainbowGradient.Parent = Stroke
+local stroke = Instance.new("UIStroke")
+stroke.Thickness = 3
+stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+stroke.Color = Color3.fromRGB(255, 0, 0)
+stroke.Parent = main
 
--- Discord Button (Top Left)
-local DiscordBtn = Instance.new("TextButton")
-DiscordBtn.Size = UDim2.new(0, 140, 0, 30)
-DiscordBtn.Position = UDim2.new(0, 10, 0, 10)
-DiscordBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-DiscordBtn.Text = "Join Discord"
-DiscordBtn.TextColor3 = Color3.new(1, 1, 1)
-DiscordBtn.Font = Enum.Font.GothamMedium
-DiscordBtn.TextSize = 12
-DiscordBtn.TextXAlignment = Enum.TextXAlignment.Right
-DiscordBtn.Parent = MainFrame
+--// Discord Button
+local discordBtn = Instance.new("TextButton")
+discordBtn.Size = UDim2.new(0, 145, 0, 28)
+discordBtn.Position = UDim2.new(0, 10, 0, 10)
+discordBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+discordBtn.Text = "Join Discord"
+discordBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+discordBtn.TextSize = 11
+discordBtn.Font = Enum.Font.GothamMedium
+discordBtn.TextXAlignment = Enum.TextXAlignment.Right
+discordBtn.Parent = main
 
-local DCorner = Instance.new("UICorner")
-DCorner.CornerRadius = UDim.new(0, 6)
-DCorner.Parent = DiscordBtn
+local dPadding = Instance.new("UIPadding")
+dPadding.PaddingRight = UDim.new(0, 10)
+dPadding.Parent = discordBtn
 
-local DPadding = Instance.new("UIPadding")
-DPadding.PaddingRight = UDim.new(0, 10)
-DPadding.Parent = DiscordBtn
+local dCorner = Instance.new("UICorner")
+dCorner.CornerRadius = UDim.new(0, 6)
+dCorner.Parent = discordBtn
 
-local DIcon = Instance.new("ImageLabel")
-DIcon.Size = UDim2.new(0, 20, 0, 20)
-DIcon.Position = UDim2.new(0, 5, 0.5, -10)
-DIcon.BackgroundTransparency = 1
-DIcon.Image = "rbxassetid://11419713430"
-DIcon.Parent = DiscordBtn
+local dIcon = Instance.new("ImageLabel")
+dIcon.Size = UDim2.new(0, 18, 0, 18)
+dIcon.Position = UDim2.new(0, 6, 0.5, -9)
+dIcon.BackgroundTransparency = 1
+dIcon.Image = "rbxassetid://11419713430"
+dIcon.Parent = discordBtn
 
-DiscordBtn.MouseButton1Click:Connect(function()
+discordBtn.MouseButton1Click:Connect(function()
 	if setclipboard then
 		setclipboard("https://discord.gg/CTjeFG5bGt")
-		DiscordBtn.Text = "Link Copied!"
+		discordBtn.Text = "Link Copied!"
 		task.wait(2)
-		DiscordBtn.Text = "Join Discord"
+		discordBtn.Text = "Join Discord"
 	end
 end)
 
--- Close Button (Top Right)
-local CloseBtn = Instance.new("TextButton")
-CloseBtn.Size = UDim2.new(0, 30, 0, 30)
-CloseBtn.Position = UDim2.new(1, -40, 0, 10)
-CloseBtn.BackgroundColor3 = Color3.fromRGB(30, 20, 20)
-CloseBtn.Text = "X"
-CloseBtn.TextColor3 = Color3.new(1, 0.3, 0.3)
-CloseBtn.Font = Enum.Font.GothamBold
-CloseBtn.TextSize = 14
-CloseBtn.Parent = MainFrame
+--// Close Button
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 28, 0, 28)
+closeBtn.Position = UDim2.new(1, -38, 0, 10)
+closeBtn.BackgroundColor3 = Color3.fromRGB(30, 15, 15)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.fromRGB(255, 100, 100)
+closeBtn.TextSize = 14
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.Parent = main
 
-local CCorner = Instance.new("UICorner")
-CCorner.CornerRadius = UDim.new(0, 6)
-CCorner.Parent = CloseBtn
+local cCorner = Instance.new("UICorner")
+cCorner.CornerRadius = UDim.new(0, 6)
+cCorner.Parent = closeBtn
 
-CloseBtn.MouseButton1Click:Connect(function()
-	ScreenGui:Destroy()
+closeBtn.MouseButton1Click:Connect(function()
+	gui:Destroy()
 end)
 
--- Title (Rainbow)
-local Title = Instance.new("TextLabel")
-Title.Text = "Astrex Hub"
-Title.Size = UDim2.new(1, 0, 0, 50)
-Title.Position = UDim2.new(0, 0, 0, 30)
-Title.BackgroundTransparency = 1
-Title.Font = Enum.Font.GothamBold
-Title.TextSize = 30
-Title.Parent = MainFrame
+--// Title
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 45)
+title.Position = UDim2.new(0, 0, 0, 25)
+title.BackgroundTransparency = 1
+title.Text = "Astrex Hub"
+title.TextSize = 28
+title.Font = Enum.Font.GothamBold
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Parent = main
 
-local TitleGradient = RainbowGradient:Clone()
-TitleGradient.Parent = Title
+local warning = Instance.new("TextLabel")
+warning.Size = UDim2.new(1, 0, 0, 20)
+warning.Position = UDim2.new(0, 0, 0, 62)
+warning.BackgroundTransparency = 1
+warning.Text = "(test gui doesnt work)"
+warning.TextColor3 = Color3.fromRGB(120, 120, 120)
+warning.TextSize = 13
+warning.Font = Enum.Font.GothamMedium
+warning.Parent = main
 
--- Status Subtitle
-local Subtitle = Instance.new("TextLabel")
-Subtitle.Text = "(test gui doesnt work)"
-Subtitle.Size = UDim2.new(1, 0, 0, 20)
-Subtitle.Position = UDim2.new(0, 0, 0, 75)
-Subtitle.BackgroundTransparency = 1
-Subtitle.TextColor3 = Color3.fromRGB(150, 150, 150)
-Subtitle.Font = Enum.Font.Gotham
-Subtitle.TextSize = 14
-Subtitle.Parent = MainFrame
+--// Buttons
+local container = Instance.new("Frame")
+container.Size = UDim2.new(1, -40, 1, -135)
+container.Position = UDim2.new(0, 20, 0, 105)
+container.BackgroundTransparency = 1
+container.Parent = main
 
--- Button List
-local Container = Instance.new("Frame")
-Container.Size = UDim2.new(1, -40, 1, -140)
-Container.Position = UDim2.new(0, 20, 0, 110)
-Container.BackgroundTransparency = 1
-Container.Parent = MainFrame
+local layout = Instance.new("UIListLayout")
+layout.Padding = UDim.new(0, 8)
+layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+layout.Parent = container
 
-local Layout = Instance.new("UIListLayout")
-Layout.Padding = UDim.new(0, 10)
-Layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-Layout.Parent = Container
-
-local function CreateActionBtn(text)
+local function makeBtn(text)
 	local b = Instance.new("TextButton")
-	b.Size = UDim2.new(1, 0, 0, 35)
-	b.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+	b.Size = UDim2.new(1, 0, 0, 34)
+	b.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 	b.Text = text
-	b.TextColor3 = Color3.new(1, 1, 1)
+	b.TextColor3 = Color3.fromRGB(255, 255, 255)
 	b.Font = Enum.Font.GothamSemibold
 	b.TextSize = 14
-	b.Parent = Container
-	Instance.new("UICorner", b).CornerRadius = UDim.new(0, 6)
+	b.AutoButtonColor = false
+	b.Parent = container
+
+	local bc = Instance.new("UICorner")
+	bc.CornerRadius = UDim.new(0, 5)
+	bc.Parent = b
 end
 
-CreateActionBtn("Save Pos")
-CreateActionBtn("TP to Pos")
-CreateActionBtn("Desync")
+makeBtn("Save Pos")
+makeBtn("TP to Pos")
+makeBtn("Desync")
 
--- Footer
-local Footer = Instance.new("TextLabel")
-Footer.Text = "astrex hub ontop!"
-Footer.Size = UDim2.new(1, 0, 0, 20)
-Footer.Position = UDim2.new(0, 0, 1, -25)
-Footer.BackgroundTransparency = 1
-Footer.TextColor3 = Color3.fromRGB(100, 100, 100)
-Footer.Font = Enum.Font.GothamItalic
-Footer.TextSize = 12
-Footer.Parent = MainFrame
+--// Footer
+local footer = Instance.new("TextLabel")
+footer.Size = UDim2.new(1, 0, 0, 20)
+footer.Position = UDim2.new(0, 0, 1, -25)
+footer.BackgroundTransparency = 1
+footer.Text = "astrex hub ontop!"
+footer.TextColor3 = Color3.fromRGB(80, 80, 80)
+footer.TextSize = 11
+footer.Font = Enum.Font.GothamItalic
+footer.Parent = main
 
--- Rainbow Animation Logic
+--// 🌈 Smooth Rainbow Effect (FIXED)
 RunService.RenderStepped:Connect(function()
-	local rot = (tick() * 60) % 360
-	RainbowGradient.Rotation = rot
-	TitleGradient.Rotation = rot
+	local hue = (os.clock() * 0.15) % 1
+	local color = Color3.fromHSV(hue, 1, 1)
+
+	stroke.Color = color
+	title.TextColor3 = color
 end)
