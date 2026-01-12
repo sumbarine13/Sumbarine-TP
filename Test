@@ -1,0 +1,123 @@
+local lp = game:GetService("Players").LocalPlayer
+local rs = game:GetService("RunService")
+
+local gui = Instance.new("ScreenGui")
+gui.Name = "AstrexHub"
+gui.ResetOnSpawn = false
+gui.Parent = lp:WaitForChild("PlayerGui")
+
+local main = Instance.new("Frame")
+main.Size = UDim2.new(0, 340, 0, 260)
+main.Position = UDim2.new(0.5, -170, 0.4, -130)
+main.BackgroundColor3 = Color3.fromRGB(12, 12, 12)
+main.BorderSizePixel = 0
+main.Active = true
+main.Draggable = true
+main.Parent = gui
+
+local corner = Instance.new("UICorner")
+corner.CornerRadius = UDim.new(0, 9)
+corner.Parent = main
+
+local stroke = Instance.new("UIStroke")
+stroke.Thickness = 2.5
+stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+stroke.Parent = main
+
+local discordBtn = Instance.new("TextButton")
+discordBtn.Size = UDim2.new(0, 140, 0, 25)
+discordBtn.Position = UDim2.new(0, 10, 0, 10)
+discordBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+discordBtn.Text = "Join Discord Server"
+discordBtn.TextColor3 = Color3.fromRGB(114, 137, 218)
+discordBtn.TextSize = 11
+discordBtn.Font = Enum.Font.GothamMedium
+discordBtn.Parent = main
+
+local dCorner = Instance.new("UICorner")
+dCorner.CornerRadius = UDim.new(0, 4)
+dCorner.Parent = discordBtn
+
+local dIcon = Instance.new("ImageLabel")
+dIcon.Size = UDim2.new(0, 14, 0, 14)
+dIcon.Position = UDim2.new(0, 6, 0.5, -7)
+dIcon.BackgroundTransparency = 1
+dIcon.Image = "rbxassetid://6034534537"
+dIcon.Parent = discordBtn
+
+discordBtn.MouseButton1Click:Connect(function()
+	if setclipboard then
+		setclipboard("https://discord.gg/CTjeFG5bGt")
+		discordBtn.Text = "Link Copied!"
+		task.wait(2)
+		discordBtn.Text = "Join Discord Server"
+	end
+end)
+
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 45)
+title.Position = UDim2.new(0, 0, 0, 15)
+title.BackgroundTransparency = 1
+title.Text = "Astrex Hub"
+title.TextSize = 25
+title.Font = Enum.Font.GothamBold
+title.Parent = main
+
+local warning = Instance.new("TextLabel")
+warning.Size = UDim2.new(1, 0, 0, 20)
+warning.Position = UDim2.new(0, 0, 0, 52)
+warning.BackgroundTransparency = 1
+warning.Text = "(test gui doesnt work)"
+warning.TextColor3 = Color3.fromRGB(120, 120, 120)
+warning.TextSize = 13
+warning.Font = Enum.Font.GothamMedium
+warning.Parent = main
+
+local container = Instance.new("Frame")
+container.Size = UDim2.new(1, -40, 1, -125)
+container.Position = UDim2.new(0, 20, 0, 95)
+container.BackgroundTransparency = 1
+container.Parent = main
+
+local layout = Instance.new("UIListLayout")
+layout.Padding = UDim.new(0, 7)
+layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+layout.SortOrder = Enum.SortOrder.LayoutOrder
+layout.Parent = container
+
+local function makeBtn(name)
+	local b = Instance.new("TextButton")
+	b.Size = UDim2.new(1, 0, 0, 34)
+	b.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+	b.Text = name
+	b.TextColor3 = Color3.fromRGB(255, 255, 255)
+	b.Font = Enum.Font.GothamSemibold
+	b.TextSize = 14
+	b.AutoButtonColor = false
+	b.Parent = container
+	
+	local bc = Instance.new("UICorner")
+	bc.CornerRadius = UDim.new(0, 5)
+	bc.Parent = b
+end
+
+makeBtn("Save Pos")
+makeBtn("TP to Pos")
+makeBtn("Desync")
+
+local footer = Instance.new("TextLabel")
+footer.Size = UDim2.new(1, 0, 0, 20)
+footer.Position = UDim2.new(0, 0, 1, -25)
+footer.BackgroundTransparency = 1
+footer.Text = "astrex hub ontop!"
+footer.TextColor3 = Color3.fromRGB(80, 80, 80)
+footer.TextSize = 11
+footer.Font = Enum.Font.GothamItalic
+footer.Parent = main
+
+rs.RenderStepped:Connect(function()
+	local h = (tick() % 4) / 4
+	local color = Color3.fromHSV(h, 0.7, 1)
+	stroke.Color = color
+	title.TextColor3 = color
+end)
