@@ -20,29 +20,35 @@ corner.CornerRadius = UDim.new(0, 9)
 corner.Parent = main
 
 local stroke = Instance.new("UIStroke")
-stroke.Thickness = 2.5
+stroke.Thickness = 3
 stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 stroke.Parent = main
 
+-- Discord Button (Top Left)
 local discordBtn = Instance.new("TextButton")
-discordBtn.Size = UDim2.new(0, 140, 0, 25)
+discordBtn.Size = UDim2.new(0, 145, 0, 28)
 discordBtn.Position = UDim2.new(0, 10, 0, 10)
 discordBtn.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-discordBtn.Text = "Join Discord Server"
-discordBtn.TextColor3 = Color3.fromRGB(114, 137, 218)
+discordBtn.Text = "Join Discord"
+discordBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 discordBtn.TextSize = 11
 discordBtn.Font = Enum.Font.GothamMedium
+discordBtn.TextXAlignment = Enum.TextXAlignment.Right
 discordBtn.Parent = main
 
+local dPadding = Instance.new("UIPadding")
+dPadding.PaddingRight = UDim.new(0, 10)
+dPadding.Parent = discordBtn
+
 local dCorner = Instance.new("UICorner")
-dCorner.CornerRadius = UDim.new(0, 4)
+dCorner.CornerRadius = UDim.new(0, 6)
 dCorner.Parent = discordBtn
 
 local dIcon = Instance.new("ImageLabel")
-dIcon.Size = UDim2.new(0, 14, 0, 14)
-dIcon.Position = UDim2.new(0, 6, 0.5, -7)
+dIcon.Size = UDim2.new(0, 18, 0, 18)
+dIcon.Position = UDim2.new(0, 6, 0.5, -9)
 dIcon.BackgroundTransparency = 1
-dIcon.Image = "rbxassetid://6034534537"
+dIcon.Image = "rbxassetid://11419713430" -- High Quality Transparent Discord Logo
 dIcon.Parent = discordBtn
 
 discordBtn.MouseButton1Click:Connect(function()
@@ -50,22 +56,41 @@ discordBtn.MouseButton1Click:Connect(function()
 		setclipboard("https://discord.gg/CTjeFG5bGt")
 		discordBtn.Text = "Link Copied!"
 		task.wait(2)
-		discordBtn.Text = "Join Discord Server"
+		discordBtn.Text = "Join Discord"
 	end
+end)
+
+-- Close Button (Top Right)
+local closeBtn = Instance.new("TextButton")
+closeBtn.Size = UDim2.new(0, 28, 0, 28)
+closeBtn.Position = UDim2.new(1, -38, 0, 10)
+closeBtn.BackgroundColor3 = Color3.fromRGB(30, 15, 15)
+closeBtn.Text = "X"
+closeBtn.TextColor3 = Color3.fromRGB(255, 100, 100)
+closeBtn.TextSize = 14
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.Parent = main
+
+local cCorner = Instance.new("UICorner")
+cCorner.CornerRadius = UDim.new(0, 6)
+cCorner.Parent = closeBtn
+
+closeBtn.MouseButton1Click:Connect(function()
+	gui:Destroy()
 end)
 
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 0, 45)
-title.Position = UDim2.new(0, 0, 0, 15)
+title.Position = UDim2.new(0, 0, 0, 25)
 title.BackgroundTransparency = 1
 title.Text = "Astrex Hub"
-title.TextSize = 25
+title.TextSize = 28
 title.Font = Enum.Font.GothamBold
 title.Parent = main
 
 local warning = Instance.new("TextLabel")
 warning.Size = UDim2.new(1, 0, 0, 20)
-warning.Position = UDim2.new(0, 0, 0, 52)
+warning.Position = UDim2.new(0, 0, 0, 62)
 warning.BackgroundTransparency = 1
 warning.Text = "(test gui doesnt work)"
 warning.TextColor3 = Color3.fromRGB(120, 120, 120)
@@ -74,13 +99,13 @@ warning.Font = Enum.Font.GothamMedium
 warning.Parent = main
 
 local container = Instance.new("Frame")
-container.Size = UDim2.new(1, -40, 1, -125)
-container.Position = UDim2.new(0, 20, 0, 95)
+container.Size = UDim2.new(1, -40, 1, -135)
+container.Position = UDim2.new(0, 20, 0, 105)
 container.BackgroundTransparency = 1
 container.Parent = main
 
 local layout = Instance.new("UIListLayout")
-layout.Padding = UDim.new(0, 7)
+layout.Padding = UDim.new(0, 8)
 layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 layout.SortOrder = Enum.SortOrder.LayoutOrder
 layout.Parent = container
@@ -115,9 +140,11 @@ footer.TextSize = 11
 footer.Font = Enum.Font.GothamItalic
 footer.Parent = main
 
+-- Smooth Rainbow Loop
 rs.RenderStepped:Connect(function()
-	local h = (tick() % 4) / 4
-	local color = Color3.fromHSV(h, 0.7, 1)
+	local hue = tick() % 4 / 4
+	local color = Color3.fromHSV(hue, 0.7, 1)
+	
 	stroke.Color = color
 	title.TextColor3 = color
 end)
